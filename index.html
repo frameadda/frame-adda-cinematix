@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Frame Adda Cinematix specializes in high-end cinematic wedding films, commercial shoots, and creative visual storytelling across India.">
+    <meta name="keywords" content="wedding cinematographer India, cinematic wedding films, commercial ad shoots, Frame Adda Cinematix, pre-wedding shoot">
+    
+    <!-- OpenGraph/Social Media Meta Tags -->
+    <meta property="og:title" content="Frame Adda Cinematix">
+    <meta property="og:description" content="Professional Film Production, Cinematic Weddings & Commercials.">
+    <meta property="og:image" content="Frame Adda Cinematix - Logo.png">
+    <meta property="og:type" content="website">
+
+    <title>Frame Adda Cinematix | Professional Film Production</title>
+    <link rel="icon" type="image/png" href="Frame Adda Cinematix - Logo.png">
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@600;700&family=Outfit:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+    
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <!-- Anti-gravity Particle Background -->
+    <canvas id="canvas-bg"></canvas>
+
+    <!-- Navigation -->
+    <nav class="navbar" id="navbar">
+        <div class="nav-container">
+            <a href="#" class="logo-link">
+                <img src="Frame Adda Cinematix - Logo.png" alt="Frame Adda Cinematix Logo" class="brand-logo-anim" style="height: 85px; width: 85px; object-fit: cover;">
+                <span class="logo-text">Frame Adda <span style="color: #6F8F6B;">Cinematix</span></span>
+            </a>
+            <ul class="nav-links">
+                <li><a href="#services">Services</a></li>
+                <li><a href="#portfolio">Portfolio</a></li>
+                <li><a href="#contact">Contact</a></li>
+            </ul>
+
+            <!-- Mobile Menu Toggle -->
+            <div class="menu-toggle" id="menuToggle">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Mobile Sidebar Navigation -->
+    <div class="mobile-nav" id="mobileNav">
+        <ul class="mobile-nav-links">
+            <li><a href="#services">Services</a></li>
+            <li><a href="#portfolio">Portfolio</a></li>
+            <li><a href="#contact">Contact</a></li>
+        </ul>
+    </div>
+
+    <!-- Hero Section -->
+    <section class="hero" id="hero">
+        <div class="hero-content reveal slide-up">
+            <h1 class="hero-title">Don’t Just Capture Moments.<br><span class="text-gradient">Create Them With Us</span></h1>
+            <p class="hero-subtitle">Professional film production, storytelling, and visual creativity.</p>
+            <div class="hero-buttons">
+                <a href="#portfolio" class="btn btn-primary float-hover">View Portfolio</a>
+                <a href="#contact" class="btn btn-secondary float-hover">Contact Us</a>
+            </div>
+        </div>
+        
+        <!-- Floating overlay elements -->
+        <div class="floating-element el-1"><i class="fa-solid fa-video"></i></div>
+        <div class="floating-element el-2"><i class="fa-solid fa-film"></i></div>
+        <div class="floating-element el-3"><i class="fa-solid fa-clapperboard"></i></div>
+    </section>
+
+
+
+    <!-- Services Section -->
+    <section class="services section" id="services">
+        <div class="container">
+            <h2 class="section-title center reveal slide-up">Our <span style="color: var(--secondary);">Services</span></h2>
+            <div class="services-grid">
+                <div class="glass-card service-card reveal fade-in delay-1 floating">
+                    <div class="icon-wrapper" style="overflow: hidden; padding: 2px;">
+                        <img src="vid_prod.png" alt="Video Camera" style="width: 100%; height: 100%; object-fit: cover; border-radius: 50%; mix-blend-mode: screen; transform: scale(1.2);">
+                    </div>
+                    <h3>Video Production</h3>
+                    <p>From script to screen, we deliver powerful visuals that tell your story beautifully.</p>
+                </div>
+                <div class="glass-card service-card reveal fade-in delay-2 floating">
+                    <div class="icon-wrapper" style="overflow: hidden; padding: 2px;">
+                        <img src="couple-golden.png" alt="Wedding Couple" style="width: 100%; height: 100%; object-fit: cover; border-radius: 50%; mix-blend-mode: screen; transform: scale(1.2);">
+                    </div>
+                    <h3>Wedding Cinematography</h3>
+                    <p>Capturing your beautiful moments into a timeless cinematic film.</p>
+                </div>
+                <div class="glass-card service-card reveal fade-in delay-3 floating">
+                    <div class="icon-wrapper" style="overflow: hidden; padding: 2px;">
+                        <img src="ads_golden.png" alt="Commercials Clapperboard" style="width: 100%; height: 100%; object-fit: cover; border-radius: 50%; mix-blend-mode: screen; transform: scale(1.2);">
+                    </div>
+                    <h3>Commercial & Ads</h3>
+                    <p>High-end corporate videos and commercials that elevate your brand.</p>
+                </div>
+                <div class="glass-card service-card reveal fade-in delay-4 floating">
+                    <div class="icon-wrapper" style="overflow: hidden; padding: 2px;">
+                        <img src="edit_golden.png" alt="Film Reel" style="width: 100%; height: 100%; object-fit: cover; border-radius: 50%; mix-blend-mode: screen; transform: scale(1.2);">
+                    </div>
+                    <h3>Editing & Post Production</h3>
+                    <p>Professional color grading, VFX, and sound design.</p>
+                </div>
+                <div class="glass-card service-card reveal fade-in delay-5 floating">
+                    <div class="icon-wrapper" style="overflow: hidden; padding: 2px;">
+                        <img src="creative_golden.png" alt="Creative Lightbulb" style="width: 100%; height: 100%; object-fit: cover; border-radius: 50%; mix-blend-mode: screen; transform: scale(1.2);">
+                    </div>
+                    <h3>Creative Direction</h3>
+                    <p>Scripting, storyboarding, and conceptualizing ideas.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Portfolio Section (Expandable Accordion) -->
+    <section class="portfolio section" id="portfolio">
+        <div class="container">
+            <h2 class="section-title center reveal slide-up">Cinematic <span style="color: var(--secondary);">Gallery</span></h2>
+            
+            <div class="gallery-accordion reveal fade-in">
+                <!-- Category 1: Wedding Film -->
+                <div class="accordion-item">
+                    <div class="accordion-header">
+                        <h3>Wedding Film</h3>
+                        <i class="fa-solid fa-chevron-down toggle-icon"></i>
+                    </div>
+                    <div class="accordion-content">
+                        <div class="portrait-grid">
+                            <img src="indian-sunset-silhouette.png" alt="Indian Couple Sunset Cinematic Silhouette" class="portrait-img">
+                            <img src="udaipur_wedding.png" alt="Royal Udaipur Wedding Detail Cinematic" class="portrait-img">
+                            <img src="kutch_wedding.png" alt="White Desert Kutch Wedding Couple Cinematic" class="portrait-img">
+                            <img src="dholavira_wedding.png" alt="Dholavira Ruins Gujarat Aesthetic Wedding Couple" class="portrait-img">
+                            <img src="gujarat_aesthetic_wedding.png" alt="Traditional Gujarati Bride Panetar Cinematic Landscape" class="portrait-img">
+
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Category 2: Commercial Shoot -->
+                <div class="accordion-item">
+                    <div class="accordion-header">
+                        <h3>Commercial Shoot</h3>
+                        <i class="fa-solid fa-chevron-down toggle-icon"></i>
+                    </div>
+                    <div class="accordion-content">
+                        <div class="portrait-grid">
+                            <img src="udaipur-commercial-real.png" alt="Aesthetic Sunrise Udaipur Shoot" class="portrait-img">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Category 3: Cinematic Click -->
+                <div class="accordion-item">
+                    <div class="accordion-header">
+                        <h3>Cinematic Click</h3>
+                        <i class="fa-solid fa-chevron-down toggle-icon"></i>
+                    </div>
+                    <div class="accordion-content">
+                        <div class="portrait-grid">
+                            <img src="girnar-hills.png" alt="Girnar Gujarat Hill Cinematic Drone Shot" class="portrait-img">
+                            <img src="girnar_cinematic.png" alt="Girnar Mist Cinematic Shot" class="portrait-img">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Category 4: Cinematic Diaries -->
+                <div class="accordion-item">
+                    <div class="accordion-header">
+                        <h3>Cinematic Diaries</h3>
+                        <i class="fa-solid fa-chevron-down toggle-icon"></i>
+                    </div>
+                    <div class="accordion-content">
+                        <div class="portrait-grid">
+                            <img src="junagadh-night-collage.png" alt="Girnar and Junagadh Cinematic Night Aerials" class="portrait-img">
+                            <img src="bhavnath_night.png" alt="Bhavnath Temple Night Cinematic" class="portrait-img">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Why Choose Us -->
+    <section class="why-choose-us section" id="why-choose-us">
+        <div class="container layout-grid alt-layout">
+            <div class="why-text reveal slide-left">
+                <h2 class="section-title">Why Choose <span style="color: var(--secondary);">Us</span></h2>
+                <ul class="feature-list">
+                    <li><i class="fa-solid fa-wand-magic-sparkles"></i> <strong>Unique Concepts</strong></li>
+                    <li><i class="fa-solid fa-film"></i> <strong>Cinematic Quality</strong></li>
+                    <li><i class="fa-solid fa-rocket"></i> <strong>Fast Turnaround</strong></li>
+                    <li><i class="fa-solid fa-comment-dots"></i> <strong>Easy Communication</strong></li>
+                    <li><i class="fa-solid fa-bullseye"></i> <strong>Results That Impress</strong></li>
+                </ul>
+            </div>
+            <div class="why-visuals reveal slide-right">
+               <div class="glass-card padded-card floating float-slow">
+                   <h3 style="color: var(--primary); font-size: 2rem; text-align: center;">"Vision becomes motion."</h3>
+               </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Frame Adda Process -->
+    <section class="process section" id="process">
+        <div class="container">
+            <h2 class="section-title center reveal slide-up">Our <span style="color: var(--secondary);">Process</span></h2>
+            <div class="services-grid" style="grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));">
+                <div class="glass-card service-card reveal fade-in delay-1 floating">
+                    <div class="icon-wrapper"><i class="fa-solid fa-lightbulb"></i></div>
+                    <h3 style="color: var(--secondary);">1. Conceptualization</h3>
+                    <p>We start by understanding your vision, crafting the perfect storyline and aesthetic direction for your shoot.</p>
+                </div>
+                <div class="glass-card service-card reveal fade-in delay-2 floating">
+                    <div class="icon-wrapper"><i class="fa-solid fa-camera-retro"></i></div>
+                    <h3 style="color: var(--secondary);">2. Cinematic Production</h3>
+                    <p>Transform your visuals with rich cinematic color grading—featuring perfectly balanced tones, striking contrast, and stylized palettes that elevate mood and bring your story to life.</p>
+                </div>
+                <div class="glass-card service-card reveal fade-in delay-3 floating">
+                    <div class="icon-wrapper"><i class="fa-solid fa-film"></i></div>
+                    <h3 style="color: var(--secondary);">3. Mastering & Edit</h3>
+                    <p>Professional color grading, immersive sound design, and precise editing to bring the final vision to life.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section class="contact section" id="contact">
+        <div class="container layout-grid">
+            <div class="contact-info reveal slide-right">
+                <h2 class="section-title">Let's <span style="color: var(--secondary);">Connect</span></h2>
+                <p>Ready to roll the camera? Reach out to us to start your cinematic journey.</p>
+                
+                <ul class="contact-details">
+                    <li><i class="fa-solid fa-location-dot"></i> <span>Junagadh, Gujarat</span></li>
+                    <li><i class="fa-solid fa-phone"></i> <span>+91 63540 02484</span></li>
+                    <li><i class="fa-solid fa-envelope"></i> <span><a href="mailto:frameaddaa@gmail.com">frameaddaa@gmail.com</a></span></li>
+                    <li><i class="fa-brands fa-instagram"></i> <span><a href="https://www.instagram.com/frame_adda_" target="_blank" rel="noopener">@frame_adda_</a></span></li>
+                </ul>
+            </div>
+            
+            <div class="contact-form-container reveal slide-left">
+                <form class="glass-card contact-form">
+                    <div class="input-group">
+                        <input type="text" id="name" required>
+                        <label for="name">Your Name</label>
+                    </div>
+                    <div class="input-group">
+                        <input type="email" id="email" required>
+                        <label for="email">Your Email</label>
+                    </div>
+                    <div class="input-group">
+                        <textarea id="message" rows="4" required></textarea>
+                        <label for="message">Your Message</label>
+                    </div>
+                    <button type="button" class="btn btn-primary submit-btn">Send Message <i class="fa-solid fa-paper-plane"></i></button>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container footer-content">
+            <div class="footer-brand">
+                <img src="Frame Adda Cinematix - Logo.png" alt="Frame Adda Cinematix Logo" class="brand-logo-anim" style="height: 65px; width: 65px; object-fit: cover;">
+                <span>Frame Adda <span style="color: var(--secondary);">Cinematix</span></span>
+            </div>
+            
+            <p style="color: var(--text-muted); font-size: 0.9rem; max-width: 450px; margin: 15px auto; text-align: center; line-height: 1.6;">
+                Crafting timeless cinematic stories through the lens. <br> 
+                Where your memories become a masterpiece.
+            </p>
+
+            <div class="social-links" style="margin-top: 25px;">
+                <a href="https://www.instagram.com/frame_adda_" target="_blank" rel="noopener" aria-label="Instagram"><i class="fa-brands fa-instagram"></i></a>
+                <a href="https://wa.me/916354002484?text=Hi%20Frame%20Adda,%20I%20would%20like%20to%20inquire%20about%20a%20shoot." target="_blank" rel="noopener" aria-label="WhatsApp"><i class="fa-brands fa-whatsapp"></i></a>
+                <a href="#" aria-label="Facebook"><i class="fa-brands fa-facebook-f"></i></a>
+            </div>
+            
+            <div class="copyright" style="margin-top: 20px; font-size: 0.85rem; color: var(--text-muted);">
+                &copy; 2026 Frame Adda Cinematix. All Rights Reserved.
+            </div>
+        </div>
+    </footer>
+
+    <!-- AI Guide Chatbot (Right Bottom) -->
+    <div class="ai-chat-widget">
+        <div class="ai-chat-tooltip" id="aiChatTooltip">
+            Hi! How can I help you?
+        </div>
+        <div class="ai-chat-bubble" id="aiChatBubble">
+            <i class="fa-solid fa-robot"></i>
+        </div>
+        <div class="ai-chat-window" id="aiChatWindow">
+            <div class="ai-chat-header">
+                <div>
+                    <i class="fa-solid fa-robot" style="margin-right:8px; color: var(--accent);"></i> 
+                    <strong>FrameAdda AI</strong>
+                </div>
+                <i class="fa-solid fa-xmark close-chat" id="aiChatClose"></i>
+            </div>
+            <div class="ai-chat-messages" id="aiChatMessages">
+                <!-- Messages injected here -->
+            </div>
+            <div class="ai-chat-input-area">
+                <div class="ai-quick-replies" id="aiQuickReplies">
+                    <button class="ai-chip" data-query="hi">How can I help today?</button>
+                </div>
+                <form id="aiChatForm" class="ai-input-form">
+                    <input type="text" id="aiChatInput" placeholder="Ask me something..." autocomplete="off">
+                    <button type="submit"><i class="fa-solid fa-paper-plane"></i></button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>
