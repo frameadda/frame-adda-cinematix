@@ -26,9 +26,9 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-
-    <!-- Anti-gravity Particle Background -->
-    <canvas id="canvas-bg"></canvas>
+    <!-- Custom Interactive Cursor -->
+    <div class="cursor-dot"></div>
+    <div class="cursor-follower"></div>
 
     <!-- Navigation -->
     <nav class="navbar" id="navbar">
@@ -38,9 +38,8 @@
                 <span class="logo-text">Frame Adda <span style="color: #6F8F6B;">Cinematix</span></span>
             </a>
             <ul class="nav-links">
-                <li><a href="#services">Services</a></li>
-                <li><a href="#portfolio">Portfolio</a></li>
-                <li><a href="#contact">Contact</a></li>
+                <li><a href="#portfolio" class="magnetic">Our Works</a></li>
+                <li><a href="#contact" class="magnetic">Contact</a></li>
             </ul>
 
             <!-- Mobile Menu Toggle -->
@@ -55,8 +54,7 @@
     <!-- Mobile Sidebar Navigation -->
     <div class="mobile-nav" id="mobileNav">
         <ul class="mobile-nav-links">
-            <li><a href="#services">Services</a></li>
-            <li><a href="#portfolio">Portfolio</a></li>
+            <li><a href="#portfolio">Our Works</a></li>
             <li><a href="#contact">Contact</a></li>
         </ul>
     </div>
@@ -67,8 +65,8 @@
             <h1 class="hero-title">Don’t Just Capture Moments.<br><span class="text-gradient">Create Them With Us</span></h1>
             <p class="hero-subtitle">Professional film production, storytelling, and visual creativity.</p>
             <div class="hero-buttons">
-                <a href="#portfolio" class="btn btn-primary float-hover">View Portfolio</a>
-                <a href="#contact" class="btn btn-secondary float-hover">Contact Us</a>
+                <a href="#portfolio" class="btn btn-primary float-hover magnetic">View Portfolio</a>
+                <a href="#contact" class="btn btn-secondary float-hover magnetic">Contact Us</a>
             </div>
         </div>
         
@@ -80,112 +78,140 @@
 
 
 
-    <!-- Services Section -->
-    <section class="services section" id="services">
-        <div class="container">
-            <h2 class="section-title center reveal slide-up">Our <span style="color: var(--secondary);">Services</span></h2>
-            <div class="services-grid">
-                <div class="glass-card service-card reveal fade-in delay-1 floating">
-                    <div class="icon-wrapper" style="overflow: hidden; padding: 2px;">
-                        <img src="vid_prod.png" alt="Video Camera" style="width: 100%; height: 100%; object-fit: cover; border-radius: 50%; mix-blend-mode: screen; transform: scale(1.2);">
-                    </div>
-                    <h3>Video Production</h3>
-                    <p>From script to screen, we deliver powerful visuals that tell your story beautifully.</p>
-                </div>
-                <div class="glass-card service-card reveal fade-in delay-2 floating">
-                    <div class="icon-wrapper" style="overflow: hidden; padding: 2px;">
-                        <img src="couple-golden.png" alt="Wedding Couple" style="width: 100%; height: 100%; object-fit: cover; border-radius: 50%; mix-blend-mode: screen; transform: scale(1.2);">
-                    </div>
-                    <h3>Wedding Cinematography</h3>
-                    <p>Capturing your beautiful moments into a timeless cinematic film.</p>
-                </div>
-                <div class="glass-card service-card reveal fade-in delay-3 floating">
-                    <div class="icon-wrapper" style="overflow: hidden; padding: 2px;">
-                        <img src="ads_golden.png" alt="Commercials Clapperboard" style="width: 100%; height: 100%; object-fit: cover; border-radius: 50%; mix-blend-mode: screen; transform: scale(1.2);">
-                    </div>
-                    <h3>Commercial & Ads</h3>
-                    <p>High-end corporate videos and commercials that elevate your brand.</p>
-                </div>
-                <div class="glass-card service-card reveal fade-in delay-4 floating">
-                    <div class="icon-wrapper" style="overflow: hidden; padding: 2px;">
-                        <img src="edit_golden.png" alt="Film Reel" style="width: 100%; height: 100%; object-fit: cover; border-radius: 50%; mix-blend-mode: screen; transform: scale(1.2);">
-                    </div>
-                    <h3>Editing & Post Production</h3>
-                    <p>Professional color grading, VFX, and sound design.</p>
-                </div>
-                <div class="glass-card service-card reveal fade-in delay-5 floating">
-                    <div class="icon-wrapper" style="overflow: hidden; padding: 2px;">
-                        <img src="creative_golden.png" alt="Creative Lightbulb" style="width: 100%; height: 100%; object-fit: cover; border-radius: 50%; mix-blend-mode: screen; transform: scale(1.2);">
-                    </div>
-                    <h3>Creative Direction</h3>
-                    <p>Scripting, storyboarding, and conceptualizing ideas.</p>
-                </div>
-            </div>
-        </div>
-    </section>
-
     <!-- Portfolio Section (Expandable Accordion) -->
     <section class="portfolio section" id="portfolio">
+        
+        <!-- Infinite Aesthetic Marquee -->
+        <div class="marquee-container">
+            <div class="marquee-content">
+                <span>* FRAME ADDA CINEMATIX * WEDDING FILMS * COMMERCIALS * AESTHETIC VISUALS </span>
+                <span>* FRAME ADDA CINEMATIX * WEDDING FILMS * COMMERCIALS * AESTHETIC VISUALS </span>
+                <span>* FRAME ADDA CINEMATIX * WEDDING FILMS * COMMERCIALS * AESTHETIC VISUALS </span>
+                <span>* FRAME ADDA CINEMATIX * WEDDING FILMS * COMMERCIALS * AESTHETIC VISUALS </span>
+            </div>
+        </div>
+
         <div class="container">
-            <h2 class="section-title center reveal slide-up">Cinematic <span style="color: var(--secondary);">Gallery</span></h2>
+            <h2 class="section-title center reveal slide-up" style="margin-top: 50px;">Our <span style="color: var(--secondary);">Works</span></h2>
             
-            <div class="gallery-accordion reveal fade-in">
-                <!-- Category 1: Wedding Film -->
-                <div class="accordion-item">
-                    <div class="accordion-header">
-                        <h3>Wedding Film</h3>
-                        <i class="fa-solid fa-chevron-down toggle-icon"></i>
-                    </div>
-                    <div class="accordion-content">
-                        <div class="portrait-grid">
-                            <img src="indian-sunset-silhouette.png" alt="Indian Couple Sunset Cinematic Silhouette" class="portrait-img">
-                            <img src="udaipur_wedding.png" alt="Royal Udaipur Wedding Detail Cinematic" class="portrait-img">
-                            <img src="kutch_wedding.png" alt="White Desert Kutch Wedding Couple Cinematic" class="portrait-img">
-                            <img src="dholavira_wedding.png" alt="Dholavira Ruins Gujarat Aesthetic Wedding Couple" class="portrait-img">
-                            <img src="gujarat_aesthetic_wedding.png" alt="Traditional Gujarati Bride Panetar Cinematic Landscape" class="portrait-img">
-
-                        </div>
+            <div class="film-grid reveal fade-in">
+                <!-- Video 1 -->
+                <div class="film-card shape-portrait" data-speed="0.1" data-video="video 1. mp4.mp4">
+                    <div class="film-thumb-container">
+                        <video src="video 1. mp4.mp4" muted loop playsinline preload="metadata" class="film-thumb-vid"></video>
+                        <div class="play-overlay"><i class="fa-solid fa-play"></i></div>
                     </div>
                 </div>
 
-                <!-- Category 2: Commercial Shoot -->
-                <div class="accordion-item">
-                    <div class="accordion-header">
-                        <h3>Commercial Shoot</h3>
-                        <i class="fa-solid fa-chevron-down toggle-icon"></i>
-                    </div>
-                    <div class="accordion-content">
-                        <div class="portrait-grid">
-                            <img src="udaipur-commercial-real.png" alt="Aesthetic Sunrise Udaipur Shoot" class="portrait-img">
-                        </div>
+                <!-- Video 2 -->
+                <div class="film-card shape-square" data-speed="-0.15" data-video="video 2. mp4.mp4">
+                    <div class="film-thumb-container">
+                        <video src="video 2. mp4.mp4" muted loop playsinline preload="metadata" class="film-thumb-vid"></video>
+                        <div class="play-overlay"><i class="fa-solid fa-play"></i></div>
                     </div>
                 </div>
 
-                <!-- Category 3: Cinematic Click -->
-                <div class="accordion-item">
-                    <div class="accordion-header">
-                        <h3>Cinematic Click</h3>
-                        <i class="fa-solid fa-chevron-down toggle-icon"></i>
-                    </div>
-                    <div class="accordion-content">
-                        <div class="portrait-grid">
-                            <img src="girnar-hills.png" alt="Girnar Gujarat Hill Cinematic Drone Shot" class="portrait-img">
-                            <img src="girnar_cinematic.png" alt="Girnar Mist Cinematic Shot" class="portrait-img">
-                        </div>
+                <!-- Video 3 -->
+                <div class="film-card shape-landscape" data-speed="0.25" data-video="video 3. mp4.mp4">
+                    <div class="film-thumb-container">
+                        <video src="video 3. mp4.mp4" muted loop playsinline preload="metadata" class="film-thumb-vid"></video>
+                        <div class="play-overlay"><i class="fa-solid fa-play"></i></div>
                     </div>
                 </div>
 
-                <!-- Category 4: Cinematic Diaries -->
-                <div class="accordion-item">
-                    <div class="accordion-header">
-                        <h3>Cinematic Diaries</h3>
-                        <i class="fa-solid fa-chevron-down toggle-icon"></i>
+                <!-- Video 4 -->
+                <div class="film-card shape-cinema" data-speed="-0.05" data-video="video 4. mp4.mp4">
+                    <div class="film-thumb-container">
+                        <video src="video 4. mp4.mp4" muted loop playsinline preload="metadata" class="film-thumb-vid"></video>
+                        <div class="play-overlay"><i class="fa-solid fa-play"></i></div>
                     </div>
-                    <div class="accordion-content">
-                        <div class="portrait-grid">
-                            <img src="junagadh-night-collage.png" alt="Girnar and Junagadh Cinematic Night Aerials" class="portrait-img">
-                            <img src="bhavnath_night.png" alt="Bhavnath Temple Night Cinematic" class="portrait-img">
-                        </div>
+                </div>
+
+                <!-- Video 5 -->
+                <div class="film-card shape-portrait" data-speed="0.3" data-video="video 5. mp4.mp4">
+                    <div class="film-thumb-container">
+                        <video src="video 5. mp4.mp4" muted loop playsinline preload="metadata" class="film-thumb-vid"></video>
+                        <div class="play-overlay"><i class="fa-solid fa-play"></i></div>
+                    </div>
+                </div>
+
+                <!-- Video 6 -->
+                <div class="film-card shape-square" data-speed="-0.2" data-video="video 6. mp4.mp4">
+                    <div class="film-thumb-container">
+                        <video src="video 6. mp4.mp4" muted loop playsinline preload="metadata" class="film-thumb-vid"></video>
+                        <div class="play-overlay"><i class="fa-solid fa-play"></i></div>
+                    </div>
+                </div>
+
+                <!-- Video 7 -->
+                <div class="film-card shape-landscape" data-speed="0.1" data-video="video 7. mp4.mp4">
+                    <div class="film-thumb-container">
+                        <video src="video 7. mp4.mp4" muted loop playsinline preload="metadata" class="film-thumb-vid"></video>
+                        <div class="play-overlay"><i class="fa-solid fa-play"></i></div>
+                    </div>
+                </div>
+
+                <!-- Video 8 -->
+                <div class="film-card shape-portrait" data-speed="-0.25" data-video="video 8. mp4.mp4">
+                    <div class="film-thumb-container">
+                        <video src="video 8. mp4.mp4" muted loop playsinline preload="metadata" class="film-thumb-vid"></video>
+                        <div class="play-overlay"><i class="fa-solid fa-play"></i></div>
+                    </div>
+                </div>
+
+                <!-- Video 9 -->
+                <div class="film-card shape-cinema" data-speed="0.15" data-video="video 9. mp4.mp4">
+                    <div class="film-thumb-container">
+                        <video src="video 9. mp4.mp4" muted loop playsinline preload="metadata" class="film-thumb-vid"></video>
+                        <div class="play-overlay"><i class="fa-solid fa-play"></i></div>
+                    </div>
+                </div>
+
+                <!-- Video 10 -->
+                <div class="film-card shape-square" data-speed="-0.1" data-video="Shiv.mp4">
+                    <div class="film-thumb-container">
+                        <video src="Shiv.mp4" muted loop playsinline preload="metadata" class="film-thumb-vid"></video>
+                        <div class="play-overlay"><i class="fa-solid fa-play"></i></div>
+                    </div>
+                </div>
+
+                <!-- Video 11 -->
+                <div class="film-card shape-portrait" data-speed="0.2" data-video="Tri[p.mp4">
+                    <div class="film-thumb-container">
+                        <video src="Tri[p.mp4" muted loop playsinline preload="metadata" class="film-thumb-vid"></video>
+                        <div class="play-overlay"><i class="fa-solid fa-play"></i></div>
+                    </div>
+                </div>
+
+                <!-- Video 12: Dawarka -->
+                <div class="film-card shape-landscape" data-speed="0.12" data-video="dawarka.mp4">
+                    <div class="film-thumb-container">
+                        <video src="dawarka.mp4" muted loop playsinline preload="metadata" class="film-thumb-vid"></video>
+                        <div class="play-overlay"><i class="fa-solid fa-play"></i></div>
+                    </div>
+                </div>
+
+                <!-- Video 13: RC -->
+                <div class="film-card shape-cinema" data-speed="-0.1" data-video="rc.mp4">
+                    <div class="film-thumb-container">
+                        <video src="rc.mp4" muted loop playsinline preload="metadata" class="film-thumb-vid"></video>
+                        <div class="play-overlay"><i class="fa-solid fa-play"></i></div>
+                    </div>
+                </div>
+
+                <!-- Video 14: Cow 2 -->
+                <div class="film-card shape-square" data-speed="0.18" data-video="Cow 2.mp4">
+                    <div class="film-thumb-container">
+                        <video src="Cow 2.mp4" muted loop playsinline preload="metadata" class="film-thumb-vid"></video>
+                        <div class="play-overlay"><i class="fa-solid fa-play"></i></div>
+                    </div>
+                </div>
+
+                <!-- Video 15: CS -->
+                <div class="film-card shape-portrait" data-speed="-0.08" data-video="cs.mp4">
+                    <div class="film-thumb-container">
+                        <video src="cs.mp4" muted loop playsinline preload="metadata" class="film-thumb-vid"></video>
+                        <div class="play-overlay"><i class="fa-solid fa-play"></i></div>
                     </div>
                 </div>
             </div>
@@ -195,7 +221,7 @@
     <!-- Why Choose Us -->
     <section class="why-choose-us section" id="why-choose-us">
         <div class="container layout-grid alt-layout">
-            <div class="why-text reveal slide-left">
+            <div class="why-text">
                 <h2 class="section-title">Why Choose <span style="color: var(--secondary);">Us</span></h2>
                 <ul class="feature-list">
                     <li><i class="fa-solid fa-wand-magic-sparkles"></i> <strong>Unique Concepts</strong></li>
@@ -205,7 +231,7 @@
                     <li><i class="fa-solid fa-bullseye"></i> <strong>Results That Impress</strong></li>
                 </ul>
             </div>
-            <div class="why-visuals reveal slide-right">
+            <div class="why-visuals">
                <div class="glass-card padded-card floating float-slow">
                    <h3 style="color: var(--primary); font-size: 2rem; text-align: center;">"Vision becomes motion."</h3>
                </div>
@@ -331,5 +357,17 @@
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
     <script src="script.js"></script>
+
+    <!-- Video Player Modal -->
+    <div class="video-modal" id="videoModal">
+        <div class="video-modal-overlay" id="videoModalOverlay"></div>
+        <div class="video-modal-content">
+            <button class="close-modal" id="closeVideoModal"><i class="fa-solid fa-xmark"></i></button>
+            <video id="modalVideoPlayer" controls playsinline controlsList="nodownload">
+                <source src="" type="video/mp4">
+                Your browser does not support the video tag.
+            </video>
+        </div>
+    </div>
 </body>
 </html>

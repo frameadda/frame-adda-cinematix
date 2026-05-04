@@ -55,135 +55,191 @@ document.addEventListener('DOMContentLoaded', () => {
     
     revealElements.forEach(el => revealObserver.observe(el));
 
-    // --- 3. 3D Studio Background (Three.js) ---
+    // --- 3. Minimal Creative Photo Lab Background (Three.js) ---
     const canvas = document.getElementById('canvas-bg');
     
-    // Validate if Three.js is loaded
     if (typeof THREE !== 'undefined') {
         const scene = new THREE.Scene();
-        scene.fog = new THREE.FogExp2(0x030403, 0.06); // Match var(--bg-dark)
+        scene.fog = new THREE.FogExp2(0x030403, 0.04);
         
-        const camera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 0.1, 1000);
-        camera.position.set(0, 2, 8);
+        const camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.1, 1000);
+        camera.position.z = 25;
 
         const renderer = new THREE.WebGLRenderer({ canvas: canvas, alpha: true, antialias: true });
         renderer.setSize(window.innerWidth, window.innerHeight);
         renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
-        
-        // Studio Floor (Reflective/Glossy)
-        const floorGeometry = new THREE.PlaneGeometry(100, 100);
-        const floorMaterial = new THREE.MeshStandardMaterial({ 
-            color: 0x050505,
-            roughness: 0.15,
-            metalness: 0.8
-        });
-        const floor = new THREE.Mesh(floorGeometry, floorMaterial);
-        floor.rotation.x = -Math.PI / 2;
-        floor.position.y = -2;
-        scene.add(floor);
 
-        // Infinite Grid on floor
-        const gridHelper = new THREE.GridHelper(100, 100, 0xA3BFA2, 0xA3BFA2);
-        gridHelper.material.opacity = 0.05;
-        gridHelper.material.transparent = true;
-        gridHelper.position.y = -1.99;
-        scene.add(gridHelper);
-        
-        // --- Darkroom Photo Lab 3D Background ---
-        const elements = [];
-        
-        // Hanging Photos Geometry
-        const photoGeo = new THREE.PlaneGeometry(0.8, 1.2);
-        
-        for (let i = 0; i < 35; i++) {
-            // Mix of developing paper (white/grey) and some tinting with brand green #6F8F6B
-            const material = new THREE.MeshStandardMaterial({
-                color: Math.random() > 0.8 ? 0x6F8F6B : 0xe0e0e0,
-                roughness: 0.6,
-                metalness: 0.1,
-                side: THREE.DoubleSide
-            });
-            const mesh = new THREE.Mesh(photoGeo, material);
+        // --- Generate Polaroid Frame Texture via Canvas ---
+        const createPolaroidTexture = () => {
+            const canvas = document.createElement('canvas');
+            canvas.width = 256; 
+            canvas.height = 320;
+            const ctx = canvas.getContext('2d');
             
-            mesh.position.set(
-                (Math.random() - 0.5) * 35,
-                Math.random() * 6 + 1,
-                (Math.random() - 0.5) * 25 - 5
+            // Draw sleek Snow White border
+            ctx.fillStyle = 'rgba(255, 255, 255, 0.95)';
+            ctx.fillRect(0, 0, 256, 320);
+            
+            // Clear out the center for the photo area (leaving thick bottom edge)
+            ctx.clearRect(16, 16, 256 - 32, 320 - 16 - 64);
+            
+            return new THREE.CanvasTexture(canvas);
+        };
+        const frameTexture = createPolaroidTexture();
+
+        // --- Create Floating Frames ---
+        const framesGroup = new THREE.Group();
+        const frameCount = 12; // Reduced from 20 for performance
+        
+        // Minimal glass-like material for frames
+        const frameMat = new THREE.MeshStandardMaterial({
+            map: frameTexture,
+            transparent: true,
+            side: THREE.DoubleSide,
+            roughness: 0.2,
+            metalness: 0.4
+        });
+        
+        // 3:4 aspect ratio plane
+        const frameGeo = new THREE.PlaneGeometry(3, 3.75);
+        const frames = [];
+
+        for(let i=0; i<frameCount; i++) {
+            const frame = new THREE.Mesh(frameGeo, frameMat);
+            
+            // Randomly scatter in space
+            frame.position.set(
+                (Math.random() - 0.5) * 50,
+                (Math.random() - 0.5) * 40,
+                (Math.random() - 0.5) * 30 - 5
             );
             
-            // Hang them slightly tilted
-            mesh.rotation.y = (Math.random() - 0.5) * 1.5;
+            // Random initial rotations
+            frame.rotation.set(
+                Math.random() * Math.PI,
+                Math.random() * Math.PI,
+                Math.random() * 0.5
+            );
             
-            mesh.userData = {
-                baseRotZ: (Math.random() - 0.5) * 0.1,
-                baseRotX: (Math.random() - 0.5) * 0.1,
-                offset: Math.random() * Math.PI * 2,
-                swaySpeed: Math.random() * 0.5 + 0.5
+            // Store unique animation speeds
+            frame.userData = {
+                rotSpeedX: (Math.random() - 0.5) * 0.005,
+                rotSpeedY: (Math.random() - 0.5) * 0.005,
+                rotSpeedZ: (Math.random() - 0.5) * 0.002,
+                driftX: (Math.random() - 0.5) * 0.02,
+                driftY: (Math.random() - 0.5) * 0.02,
             };
             
-            // Add a thin wire going up to simulate hanging
-            const lineMat = new THREE.LineBasicMaterial({color: 0x222222, transparent: true, opacity: 0.5});
-            const points = [];
-            points.push(new THREE.Vector3(0, 0.6, 0)); // Top edge of photo
-            points.push(new THREE.Vector3(0, 10, 0));  // Up to the ceiling
-            const lineGeo = new THREE.BufferGeometry().setFromPoints(points);
-            const wire = new THREE.Line(lineGeo, lineMat);
-            mesh.add(wire);
-            
-            elements.push(mesh);
-            scene.add(mesh);
+            framesGroup.add(frame);
+            frames.push(frame);
         }
+        scene.add(framesGroup);
+
+        // --- Micro Studio Dust ---
+        const dustGeo = new THREE.BufferGeometry();
+        const dustCount = 150; // Reduced from 300 for performance
+        const dustPos = new Float32Array(dustCount * 3);
+        for(let i = 0; i < dustCount * 3; i++) {
+            dustPos[i] = (Math.random() - 0.5) * 60;
+        }
+        dustGeo.setAttribute('position', new THREE.BufferAttribute(dustPos, 3));
+        const dustMat = new THREE.PointsMaterial({
+            size: 0.1,
+            color: 0xA8E6CF, /* Mint Green Dust */
+            transparent: true,
+            opacity: 0.5,
+            blending: THREE.AdditiveBlending
+        });
+        const dustSystem = new THREE.Points(dustGeo, dustMat);
+        scene.add(dustSystem);
+
+        // --- Creative Studio Lighting ---
+        scene.add(new THREE.AmbientLight(0xffffff, 0.4));
         
-        // Darkroom Lighting (Red Safelight)
-        const ambientLight = new THREE.AmbientLight(0xffffff, 0.05);
-        scene.add(ambientLight);
+        // Mint Green Spotlight (Aesthetic Theme)
+        const spotLight = new THREE.DirectionalLight(0xA8E6CF, 1.5);
+        spotLight.position.set(10, 20, 10);
+        scene.add(spotLight);
         
-        // Deep Green Safelight Spotlight
-        const safelight = new THREE.SpotLight(0x6F8F6B, 5);
-        safelight.position.set(0, 15, 0);
-        safelight.angle = Math.PI / 3;
-        safelight.penumbra = 0.8;
-        scene.add(safelight);
-        
-        // Subtle Brand Accent Lights so it's not purely red
-        const pointLight1 = new THREE.PointLight(0xA3BFA2, 1, 20);
-        pointLight1.position.set(10, 2, 5);
-        scene.add(pointLight1);
-        
-        // Animation loop
-        const clock = new THREE.Clock();
-        
+        // Snow White subtle fill
+        const fillLight = new THREE.PointLight(0xFFFFFF, 0.5, 40);
+        fillLight.position.set(-15, -10, 5);
+        scene.add(fillLight);
+
+        // --- Live Animation: Camera Flash ---
+        const paparazziFlash = new THREE.PointLight(0xffffff, 0, 100);
+        paparazziFlash.position.set(0, 5, 5);
+        scene.add(paparazziFlash);
+
+        // --- Smooth Mouse Parallax ---
+        let targetX = 0;
+        let targetY = 0;
+        const windowHalfX = window.innerWidth / 2;
+        const windowHalfY = window.innerHeight / 2;
+
+        document.addEventListener('mousemove', (event) => {
+            targetX = (event.clientX - windowHalfX) * 0.002;
+            targetY = (event.clientY - windowHalfY) * 0.002;
+        });
+
+        // --- Animation Loop ---
         function animate() {
             requestAnimationFrame(animate);
-            const time = clock.getElapsedTime();
             
-            // Cinematic photo swaying
-            elements.forEach((el) => {
-                // Gently sways from the top wire
-                el.rotation.z = el.userData.baseRotZ + Math.sin(time * el.userData.swaySpeed + el.userData.offset) * 0.08;
-                el.rotation.x = el.userData.baseRotX + Math.cos(time * el.userData.swaySpeed * 0.5 + el.userData.offset) * 0.04;
+            // Drift and tumble the polaroid frames
+            frames.forEach(frame => {
+                frame.rotation.x += frame.userData.rotSpeedX;
+                frame.rotation.y += frame.userData.rotSpeedY;
+                frame.rotation.z += frame.userData.rotSpeedZ;
+                
+                frame.position.x += frame.userData.driftX;
+                frame.position.y += frame.userData.driftY;
+                
+                // Endlessly wrap them around the screen
+                if(frame.position.x > 30) frame.position.x = -30;
+                if(frame.position.x < -30) frame.position.x = 30;
+                if(frame.position.y > 25) frame.position.y = -25;
+                if(frame.position.y < -25) frame.position.y = 25;
             });
-            
-            // Ambient pulsing of the accent lights
-            pointLight1.intensity = 1 + Math.sin(time * 0.5) * 0.5;
-            
-            // Cinematic slow camera pan around the darkroom
-            camera.position.x = Math.sin(time * 0.1) * 5;
-            camera.position.z = Math.cos(time * 0.1) * 3 + 8;
-            camera.lookAt(0, 2, 0);
-            
+
+            // Slowly rotate studio dust
+            dustSystem.rotation.y += 0.0005;
+            dustSystem.rotation.x += 0.0002;
+
+            // Parallax Camera (Reacts to Mouse)
+            camera.position.x += (targetX * 5 - camera.position.x) * 0.02;
+            camera.position.y += (-targetY * 5 - camera.position.y) * 0.02;
+            camera.lookAt(0, 0, 0);
+
+            // Live Animation: Random Camera Flashes!
+            // Flashes decay quickly
+            if (paparazziFlash.intensity > 0) {
+                paparazziFlash.intensity -= 1.5; // Quick fade out like a real strobe
+            }
+            // 0.5% chance per frame to trigger a flash
+            if (Math.random() > 0.995 && paparazziFlash.intensity <= 0) {
+                paparazziFlash.intensity = 15 + Math.random() * 20; // Intense burst
+                
+                // Randomize where the flash comes from
+                paparazziFlash.position.set(
+                    (Math.random() - 0.5) * 40,
+                    (Math.random() - 0.5) * 20,
+                    (Math.random() - 0.5) * 20 + 5
+                );
+            }
+
             renderer.render(scene, camera);
         }
         animate();
         
-        // Handle Window Resize
+        // Handle Resize
         window.addEventListener('resize', () => {
             camera.aspect = window.innerWidth / window.innerHeight;
             camera.updateProjectionMatrix();
             renderer.setSize(window.innerWidth, window.innerHeight);
         });
     } else {
-        console.warn('Three.js failed to load. 3D background inactive.');
+        console.warn('Three.js not loaded');
     }
 
     // --- 4. Interactive Logo Spin ---
@@ -198,33 +254,51 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
-    // --- 5. Accordion Gallery Logic ---
-    const accordionHeaders = document.querySelectorAll('.accordion-header');
-    
-    accordionHeaders.forEach(header => {
-        header.addEventListener('click', () => {
-            const item = header.parentElement;
-            const content = item.querySelector('.accordion-content');
-            const isActive = item.classList.contains('active');
-            
-            // Optional: Close all other accordions
-            document.querySelectorAll('.accordion-item').forEach(otherItem => {
-                if(otherItem !== item) {
-                    otherItem.classList.remove('active');
-                    otherItem.querySelector('.accordion-content').style.maxHeight = null;
-                }
-            });
-            
-            // Toggle current
-            if (!isActive) {
-                item.classList.add('active');
-                content.style.maxHeight = content.scrollHeight + "px";
-            } else {
-                item.classList.remove('active');
-                content.style.maxHeight = null;
-            }
+    // --- 5. Video Gallery Modal Logic ---
+    const filmCards = document.querySelectorAll('.film-card');
+    const videoModal = document.getElementById('videoModal');
+    const videoModalOverlay = document.getElementById('videoModalOverlay');
+    const closeVideoModalBtn = document.getElementById('closeVideoModal');
+    const modalVideoPlayer = document.getElementById('modalVideoPlayer');
+
+    function openModal(videoSrc) {
+        if (!videoModal || !modalVideoPlayer) return;
+        
+        // Update the video source and load it
+        modalVideoPlayer.src = videoSrc;
+        modalVideoPlayer.load();
+        
+        // Show modal and start playing
+        videoModal.classList.add('active');
+        document.body.style.overflow = 'hidden'; // Stop background scroll
+        
+        // Error handling if video file doesn't exist
+        modalVideoPlayer.play().catch(e => console.log("Video source might not be valid yet:", e));
+    }
+
+    function closeModal() {
+        if (!videoModal || !modalVideoPlayer) return;
+        
+        // Hide modal and pause video
+        videoModal.classList.remove('active');
+        document.body.style.overflow = '';
+        modalVideoPlayer.pause();
+        
+        // Wait for animation frame to empty source so it doesn't keep buffering
+        setTimeout(() => {
+            modalVideoPlayer.src = "";
+        }, 400); // 400ms is the CSS transition duration
+    }
+
+    filmCards.forEach(card => {
+        card.addEventListener('click', () => {
+            const videoFile = card.getAttribute('data-video');
+            if (videoFile) openModal(videoFile);
         });
     });
+
+    if (closeVideoModalBtn) closeVideoModalBtn.addEventListener('click', closeModal);
+    if (videoModalOverlay) videoModalOverlay.addEventListener('click', closeModal);
 
     // --- 6. AI Chatbot Logic ---
     const chatBubble = document.getElementById('aiChatBubble');
@@ -416,5 +490,87 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         });
     }
+
+    // --- Zero-Gravity Scatter Parallax ---
+    const parallaxCards = document.querySelectorAll('.film-card');
+    let scrollY = window.scrollY;
+    let isTicking = false;
+
+    const updateParallax = () => {
+        parallaxCards.forEach(card => {
+            const speed = parseFloat(card.getAttribute('data-speed')) || 0;
+            // Negative means it scrolls slower, positive means faster
+            const yPos = -(scrollY * speed);
+            // Update the custom CSS variable, keeping the rotation intact
+            card.style.setProperty('--parallax-y', `${yPos}px`);
+        });
+        isTicking = false;
+    };
+
+    window.addEventListener('scroll', () => {
+        scrollY = window.scrollY;
+        if (!isTicking) {
+            window.requestAnimationFrame(updateParallax);
+            isTicking = true;
+        }
+    }, { passive: true });
+
+    // Initial trigger
+    updateParallax();
+
+    // --- Custom Interactive Cursor ---
+    const cursorDot = document.querySelector('.cursor-dot');
+    const cursorFollower = document.querySelector('.cursor-follower');
+    
+    if (cursorDot && cursorFollower) {
+        let mouseX = 0, mouseY = 0;
+        let followerX = 0, followerY = 0;
+
+        window.addEventListener('mousemove', (e) => {
+            mouseX = e.clientX;
+            mouseY = e.clientY;
+            
+            // Instantly move the dot
+            cursorDot.style.left = `${mouseX}px`;
+            cursorDot.style.top = `${mouseY}px`;
+        });
+
+        // Smooth follow animation for the outer circle
+        const animateCursor = () => {
+            followerX += (mouseX - followerX) * 0.15; // easing
+            followerY += (mouseY - followerY) * 0.15;
+            
+            cursorFollower.style.left = `${followerX}px`;
+            cursorFollower.style.top = `${followerY}px`;
+            
+            requestAnimationFrame(animateCursor);
+        };
+        animateCursor();
+
+        // Expand cursor on hoverable elements
+        const hoverables = document.querySelectorAll('a, button, .film-card');
+        hoverables.forEach(el => {
+            el.addEventListener('mouseenter', () => document.body.classList.add('cursor-hover'));
+            el.addEventListener('mouseleave', () => document.body.classList.remove('cursor-hover'));
+        });
+    }
+
+    // --- Magnetic Buttons Physics ---
+    const magnetics = document.querySelectorAll('.magnetic');
+    magnetics.forEach(btn => {
+        btn.addEventListener('mousemove', (e) => {
+            const rect = btn.getBoundingClientRect();
+            const x = e.clientX - rect.left - rect.width / 2;
+            const y = e.clientY - rect.top - rect.height / 2;
+            
+            // Pull the button towards the mouse (max 20px)
+            btn.style.transform = `translate(${x * 0.3}px, ${y * 0.3}px)`;
+        });
+
+        btn.addEventListener('mouseleave', () => {
+            // Snap back to center
+            btn.style.transform = `translate(0px, 0px)`;
+        });
+    });
 
 });

@@ -1,13 +1,13 @@
 /* style.css */
 :root {
-    --bg-dark: #030403;
-    --bg-card: rgba(163, 191, 162, 0.03);
-    --primary: #A3BFA2;
-    --secondary: #6F8F6B;
-    --accent: #D4AF37;
-    --text-main: #EAEAEA;
-    --text-muted: #9BA39B;
-    --glass-border: rgba(163, 191, 162, 0.15);
+    --bg-dark: #050505; /* Deep Black */
+    --bg-card: #0A0A0A;
+    --primary: #A8E6CF; /* Mint Green */
+    --secondary: #FFFFFF; /* Snow White */
+    --accent: #A8E6CF; 
+    --text-main: #FFFFFF; /* Snow White */
+    --text-muted: #888888;
+    --glass-border: rgba(168, 230, 207, 0.15); /* Mint Glass */
 }
 
 * {
@@ -23,7 +23,63 @@ body {
     overflow-x: hidden;
     scroll-behavior: smooth;
     line-height: 1.6;
+    cursor: none; /* Hide default cursor */
 }
+
+/* Glassmorphism Navbar */
+.navbar {
+    backdrop-filter: blur(15px);
+    -webkit-backdrop-filter: blur(15px);
+    background: rgba(5, 5, 5, 0.7) !important;
+    border-bottom: 1px solid var(--glass-border);
+}
+
+/* Custom Cursor Styles */
+.cursor-dot {
+    position: fixed;
+    top: 0; left: 0;
+    width: 8px; height: 8px;
+    background: var(--primary);
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: 10000;
+    transform: translate(-50%, -50%);
+    transition: width 0.3s, height 0.3s, background 0.3s;
+    mix-blend-mode: difference;
+}
+
+.cursor-follower {
+    position: fixed;
+    top: 0; left: 0;
+    width: 40px; height: 40px;
+    border: 1px solid var(--primary);
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: 9999;
+    transform: translate(-50%, -50%);
+    transition: width 0.3s, height 0.3s, transform 0.1s ease-out;
+    mix-blend-mode: difference;
+}
+
+/* Cursor Hover States */
+.cursor-hover .cursor-dot {
+    width: 60px;
+    height: 60px;
+    background: var(--primary);
+    mix-blend-mode: difference;
+}
+.cursor-hover .cursor-follower {
+    width: 80px;
+    height: 80px;
+    border-color: transparent;
+}
+
+/* Hide cursor on links/buttons to enforce custom cursor */
+a, button, .film-card {
+    cursor: none !important;
+}
+
+/* Global Film Grain Removed for Clean Mint Aesthetic */
 
 /* Custom Global Scrollbar */
 ::-webkit-scrollbar {
@@ -236,11 +292,40 @@ a {
 }
 
 .hero-title {
-    font-family: 'Dancing Script', cursive;
+    font-family: 'Outfit', sans-serif;
     font-size: 5rem;
-    margin-bottom: 20px;
-    text-shadow: 0 10px 30px rgba(0,0,0,0.8);
+    font-weight: 900;
+    text-transform: uppercase;
+    line-height: 1.1;
+    letter-spacing: -2px;
+    margin-bottom: 25px;
+    text-shadow: 0 20px 50px rgba(0,0,0,1);
     animation: textFadeIn 2.5s ease-out forwards;
+}
+
+.hero-title .text-gradient {
+    background: linear-gradient(to right, #FFFFFF, #A8E6CF, #FFFFFF);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    display: inline-block;
+    filter: drop-shadow(0 0 25px rgba(168, 230, 207, 0.4)); /* Soft Mint Glow */
+}
+
+/* Letter reveal animation classes */
+.hero-title span, .hero-subtitle span {
+    display: inline-block;
+    opacity: 0;
+    filter: blur(10px);
+    transform: translateY(10px);
+    animation: letterReveal 0.8s forwards;
+}
+
+@keyframes letterReveal {
+    to {
+        opacity: 1;
+        filter: blur(0);
+        transform: translateY(0);
+    }
 }
 
 .hero-subtitle {
@@ -386,89 +471,268 @@ a {
     transform: scale(1.2) !important;
 }
 
-/* Portfolio Expandable Accordion */
-.gallery-accordion {
-    width: 100%;
-    max-width: 1000px;
-    margin: 0 auto;
+/* Infinite Aesthetic Marquee */
+.marquee-container {
+    width: 100vw;
+    overflow: hidden;
+    white-space: nowrap;
+    padding: 20px 0;
+    background: #000;
+    border-top: 1px solid var(--glass-border);
+    border-bottom: 1px solid var(--glass-border);
+    position: relative;
+    left: 50%;
+    transform: translateX(-50%) rotate(-2deg); /* Brutalist angle */
+    margin: 100px 0 50px 0;
+    z-index: 10;
 }
 
-.accordion-item {
-    margin-bottom: 20px;
-    border: 1px solid var(--glass-border);
-    border-radius: 12px;
+.marquee-content {
+    display: inline-block;
+    animation: marqueeScroll 20s linear infinite;
+    font-family: 'Outfit', sans-serif;
+    font-size: 3rem;
+    font-weight: 900;
+    color: transparent;
+    -webkit-text-stroke: 1px var(--primary); /* Hollow outline text */
+    text-transform: uppercase;
+    letter-spacing: 5px;
+}
+
+@keyframes marqueeScroll {
+    0% { transform: translateX(0); }
+    100% { transform: translateX(-50%); } /* Scrolls exactly half its width (2 spans) */
+}
+
+/* --- Premium Editorial Portfolio Grid --- */
+.film-grid {
+    position: relative;
+    width: 100%;
+    min-height: 2800px;
+    margin-top: 80px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 40px;
+    padding: 0 5%;
+}
+
+.film-card {
+    position: relative; /* Changed from absolute for a better grid-editorial feel */
     background: var(--bg-card);
-    backdrop-filter: blur(10px);
+    border: 1px solid var(--glass-border);
+    border-radius: 4px; /* Sharper, more professional corners */
     overflow: hidden;
+    cursor: pointer;
+    box-shadow: 0 15px 40px rgba(0,0,0,0.4);
+    transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+    width: calc(33.33% - 40px); /* 3 column base */
+}
+
+/* Individual Card Articulation - Making it "Editorial" */
+.film-card:nth-child(3n+1) { transform: translateY(50px); }
+.film-card:nth-child(3n+2) { transform: translateY(0); }
+.film-card:nth-child(3n+3) { transform: translateY(-50px); }
+
+/* Cinematic Shapes for Aesthetic Collage */
+.shape-portrait { aspect-ratio: 4 / 5; width: 28%; }
+.shape-landscape { aspect-ratio: 16 / 9; width: 45%; }
+.shape-square { aspect-ratio: 1 / 1; width: 30%; }
+.shape-cinema { aspect-ratio: 2.35 / 1; width: 60%; }
+
+/* Parallax application via CSS variable */
+.film-card {
+    margin-bottom: 80px;
+}
+
+/* Mobile Adjustments - Stacked but still aesthetic */
+@media (max-width: 900px) {
+    .film-grid { min-height: auto; flex-direction: column; align-items: center; gap: 40px; }
+    .film-card { width: 90% !important; transform: none !important; margin-bottom: 20px; }
+}
+
+.film-card:hover {
+    box-shadow: 0 25px 60px rgba(168, 230, 207, 0.2);
+    border-color: var(--primary);
+    transform: translateY(-15px) scale(1.02) !important;
+}
+
+.film-thumb-container {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    background: #000;
+    overflow: hidden;
+}
+
+.film-thumb-vid {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    opacity: 0.7;
+    transition: transform 1.2s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.8s ease;
+}
+
+.film-card:hover .film-thumb-vid {
+    transform: scale(1.1);
+    opacity: 1;
+}
+
+/* Label for Editorial Feel */
+.film-card::after {
+    content: 'VIEW FILM';
+    position: absolute;
+    bottom: 20px;
+    left: 20px;
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 2px;
+    color: var(--primary);
+    opacity: 0;
+    transform: translateY(10px);
+    transition: all 0.4s ease;
+}
+
+.film-card:hover::after {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+
+.film-card:hover {
+    box-shadow: 0 20px 50px rgba(168, 230, 207, 0.4); /* Stronger Mint Glow */
+    border-color: var(--primary);
+    z-index: 50 !important; /* Pop to front */
+}
+
+.film-thumb-container {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    background: #000;
+    overflow: hidden;
+}
+
+.film-thumb-vid {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    opacity: 0.5; /* Darken via opacity instead of heavy filters */
+    transition: transform 0.6s ease, opacity 0.6s ease;
+}
+
+.film-card:hover .film-thumb-vid {
+    transform: scale(1.05);
+    opacity: 1; /* Brighten on hover */
+}
+
+.play-overlay {
+    position: absolute;
+    top: 0; left: 0; width: 100%; height: 100%;
+    background: rgba(0,0,0,0.4);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    opacity: 0.8;
     transition: all 0.3s ease;
 }
 
-.accordion-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 20px 30px;
-    cursor: pointer;
-    transition: background 0.3s ease;
+.film-card:hover .play-overlay {
+    opacity: 1;
+    background: rgba(0,0,0,0.2);
 }
 
-.accordion-header:hover {
-    background: rgba(163, 191, 162, 0.1);
+.play-overlay i {
+    font-size: 3rem;
+    color: var(--text-main);
+    filter: drop-shadow(0 0 15px rgba(0,0,0,0.8));
+    transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275), color 0.3s ease;
 }
 
-.accordion-header h3 {
+.film-card:hover .play-overlay i {
+    transform: scale(1.2);
+    color: var(--accent);
+}
+
+.film-info {
+    padding: 20px;
+    text-align: center;
+}
+
+.film-info h3 {
     margin: 0;
-    font-size: 1.5rem;
+    font-size: 1.3rem;
+    letter-spacing: 1px;
     color: var(--text-main);
 }
 
-.toggle-icon {
-    font-size: 1.2rem;
-    color: var(--accent);
-    transition: transform 0.4s ease;
+/* Video Player Modal */
+.video-modal {
+    position: fixed;
+    top: 0; left: 0; width: 100vw; height: 100vh;
+    z-index: 10000;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.4s ease;
 }
 
-.accordion-item.active .toggle-icon {
-    transform: rotate(180deg);
+.video-modal.active {
+    opacity: 1;
+    pointer-events: auto;
 }
 
-.accordion-content {
-    max-height: 0;
-    overflow: hidden;
-    transition: max-height 0.6s cubic-bezier(0.25, 1, 0.5, 1);
+.video-modal-overlay {
+    position: absolute;
+    top: 0; left: 0; width: 100%; height: 100%;
+    background: rgba(3, 4, 3, 0.95);
+    backdrop-filter: blur(10px);
 }
 
-.portrait-grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 20px;
-    padding: 0 30px 30px 30px;
+.video-modal-content {
+    position: relative;
+    height: 90vh;
+    width: auto;
+    aspect-ratio: 9 / 16;
+    max-width: 95vw;
+    z-index: 10001;
+    transform: scale(0.9);
+    transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
 }
 
-@media(max-width: 900px) {
-    .portrait-grid {
-        grid-template-columns: repeat(2, 1fr);
-    }
+.video-modal.active .video-modal-content {
+    transform: scale(1);
 }
 
-@media(max-width: 600px) {
-    .portrait-grid {
-        grid-template-columns: 1fr;
-    }
-}
-
-.portrait-img {
+.video-modal-content video {
     width: 100%;
-    aspect-ratio: 3 / 4;
-    object-fit: cover;
+    height: 100%;
+    outline: none;
+    background: #000;
     border-radius: 8px;
-    box-shadow: 0 5px 15px rgba(0,0,0,0.5);
-    transition: transform 0.4s ease, box-shadow 0.4s ease;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.8);
 }
 
-.portrait-img:hover {
-    transform: scale(1.03);
-    box-shadow: 0 8px 25px rgba(212, 175, 55, 0.3);
+.close-modal {
+    position: absolute;
+    top: -40px;
+    right: 0;
+    background: transparent;
+    border: none;
+    color: var(--text-main);
+    font-size: 2rem;
+    cursor: pointer;
+    transition: color 0.3s;
+}
+
+.close-modal:hover {
+    color: var(--accent);
+}
+
+@media(max-width: 768px) {
+    .close-modal { top: -35px;font-size: 1.5rem; }
 }
 
 /* Why Choose Us */
