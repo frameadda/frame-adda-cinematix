@@ -633,8 +633,10 @@ a {
     display: flex;
     justify-content: center;
     align-items: center;
-    opacity: 0.8;
+    opacity: 0; /* Hidden by default, show on hover */
     transition: all 0.3s ease;
+    pointer-events: none; /* Crucial: clicks go through to the card */
+    z-index: 2;
 }
 
 .film-card:hover .play-overlay {
@@ -713,6 +715,7 @@ a {
     background: #000;
     border-radius: 8px;
     box-shadow: 0 20px 60px rgba(0,0,0,0.8);
+    object-fit: contain; /* Ensure full video is visible */
 }
 
 .close-modal {
