@@ -60,7 +60,7 @@ document.addEventListener('DOMContentLoaded', () => {
     
     if (typeof THREE !== 'undefined') {
         const scene = new THREE.Scene();
-        scene.fog = new THREE.FogExp2(0x030403, 0.04);
+        scene.fog = new THREE.FogExp2(0x030403, 0.04); 
         
         const camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.1, 1000);
         camera.position.z = 25;
@@ -76,11 +76,8 @@ document.addEventListener('DOMContentLoaded', () => {
             canvas.height = 320;
             const ctx = canvas.getContext('2d');
             
-            // Draw sleek Snow White border
             ctx.fillStyle = 'rgba(255, 255, 255, 0.95)';
             ctx.fillRect(0, 0, 256, 320);
-            
-            // Clear out the center for the photo area (leaving thick bottom edge)
             ctx.clearRect(16, 16, 256 - 32, 320 - 16 - 64);
             
             return new THREE.CanvasTexture(canvas);
@@ -91,7 +88,6 @@ document.addEventListener('DOMContentLoaded', () => {
         const framesGroup = new THREE.Group();
         const frameCount = 12; // Reduced from 20 for performance
         
-        // Minimal glass-like material for frames
         const frameMat = new THREE.MeshStandardMaterial({
             map: frameTexture,
             transparent: true,
@@ -100,28 +96,13 @@ document.addEventListener('DOMContentLoaded', () => {
             metalness: 0.4
         });
         
-        // 3:4 aspect ratio plane
         const frameGeo = new THREE.PlaneGeometry(3, 3.75);
         const frames = [];
 
         for(let i=0; i<frameCount; i++) {
             const frame = new THREE.Mesh(frameGeo, frameMat);
-            
-            // Randomly scatter in space
-            frame.position.set(
-                (Math.random() - 0.5) * 50,
-                (Math.random() - 0.5) * 40,
-                (Math.random() - 0.5) * 30 - 5
-            );
-            
-            // Random initial rotations
-            frame.rotation.set(
-                Math.random() * Math.PI,
-                Math.random() * Math.PI,
-                Math.random() * 0.5
-            );
-            
-            // Store unique animation speeds
+            frame.position.set((Math.random() - 0.5) * 50, (Math.random() - 0.5) * 40, (Math.random() - 0.5) * 30 - 5);
+            frame.rotation.set(Math.random() * Math.PI, Math.random() * Math.PI, Math.random() * 0.5);
             frame.userData = {
                 rotSpeedX: (Math.random() - 0.5) * 0.005,
                 rotSpeedY: (Math.random() - 0.5) * 0.005,
@@ -129,7 +110,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 driftX: (Math.random() - 0.5) * 0.02,
                 driftY: (Math.random() - 0.5) * 0.02,
             };
-            
             framesGroup.add(frame);
             frames.push(frame);
         }
@@ -137,7 +117,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         // --- Micro Studio Dust ---
         const dustGeo = new THREE.BufferGeometry();
-        const dustCount = 150; // Reduced from 300 for performance
+        const dustCount = 150;
         const dustPos = new Float32Array(dustCount * 3);
         for(let i = 0; i < dustCount * 3; i++) {
             dustPos[i] = (Math.random() - 0.5) * 60;
@@ -153,23 +133,38 @@ document.addEventListener('DOMContentLoaded', () => {
         const dustSystem = new THREE.Points(dustGeo, dustMat);
         scene.add(dustSystem);
 
-        // --- Creative Studio Lighting ---
-        scene.add(new THREE.AmbientLight(0xffffff, 0.4));
+        // --- Creative Studio Lighting (Dynamic) ---
+        scene.add(new THREE.AmbientLight(0xffffff, 0.3));
         
-        // Mint Green Spotlight (Aesthetic Theme)
-        const spotLight = new THREE.DirectionalLight(0xA8E6CF, 1.5);
-        spotLight.position.set(10, 20, 10);
-        scene.add(spotLight);
+        const studioLight1 = new THREE.PointLight(0xA8E6CF, 2, 50);
+        studioLight1.position.set(10, 20, 10);
+        scene.add(studioLight1);
         
-        // Snow White subtle fill
-        const fillLight = new THREE.PointLight(0xFFFFFF, 0.5, 40);
-        fillLight.position.set(-15, -10, 5);
-        scene.add(fillLight);
+        const studioLight2 = new THREE.PointLight(0xFFFFFF, 1.5, 60);
+        studioLight2.position.set(-15, -10, 5);
+        scene.add(studioLight2);
 
         // --- Live Animation: Camera Flash ---
         const paparazziFlash = new THREE.PointLight(0xffffff, 0, 100);
         paparazziFlash.position.set(0, 5, 5);
         scene.add(paparazziFlash);
+
+        // --- 3D Studio Element: Camera Lens Aperture Ring ---
+        const ringGeo = new THREE.TorusGeometry(15, 0.05, 16, 100);
+        const ringMat = new THREE.MeshBasicMaterial({ 
+            color: 0xA8E6CF, 
+            transparent: true, 
+            opacity: 0.15,
+            wireframe: true
+        });
+        const lensRing = new THREE.Mesh(ringGeo, ringMat);
+        lensRing.position.z = -10;
+        scene.add(lensRing);
+        
+        const ringGeo2 = new THREE.TorusGeometry(10, 0.02, 16, 100);
+        const lensRing2 = new THREE.Mesh(ringGeo2, ringMat);
+        lensRing2.position.z = -5;
+        scene.add(lensRing2);
 
         // --- Smooth Mouse Parallax ---
         let targetX = 0;
@@ -182,53 +177,58 @@ document.addEventListener('DOMContentLoaded', () => {
             targetY = (event.clientY - windowHalfY) * 0.002;
         });
 
-        // --- Animation Loop ---
         function animate() {
-            requestAnimationFrame(animate);
-            
-            // Drift and tumble the polaroid frames
-            frames.forEach(frame => {
-                frame.rotation.x += frame.userData.rotSpeedX;
-                frame.rotation.y += frame.userData.rotSpeedY;
-                frame.rotation.z += frame.userData.rotSpeedZ;
-                
-                frame.position.x += frame.userData.driftX;
-                frame.position.y += frame.userData.driftY;
-                
-                // Endlessly wrap them around the screen
-                if(frame.position.x > 30) frame.position.x = -30;
-                if(frame.position.x < -30) frame.position.x = 30;
-                if(frame.position.y > 25) frame.position.y = -25;
-                if(frame.position.y < -25) frame.position.y = 25;
-            });
+            try {
+                requestAnimationFrame(animate);
 
-            // Slowly rotate studio dust
-            dustSystem.rotation.y += 0.0005;
-            dustSystem.rotation.x += 0.0002;
+                // Drift frames
+                frames.forEach(frame => {
+                    frame.rotation.x += frame.userData.rotSpeedX;
+                    frame.rotation.y += frame.userData.rotSpeedY;
+                    frame.rotation.z += frame.userData.rotSpeedZ;
+                    frame.position.x += frame.userData.driftX;
+                    frame.position.y += frame.userData.driftY;
+                    
+                    if(frame.position.x > 30) frame.position.x = -30;
+                    if(frame.position.x < -30) frame.position.x = 30;
+                    if(frame.position.y > 25) frame.position.y = -25;
+                    if(frame.position.y < -25) frame.position.y = 25;
+                });
 
-            // Parallax Camera (Reacts to Mouse)
-            camera.position.x += (targetX * 5 - camera.position.x) * 0.02;
-            camera.position.y += (-targetY * 5 - camera.position.y) * 0.02;
-            camera.lookAt(0, 0, 0);
+                dustSystem.rotation.y += 0.0005;
+                dustSystem.rotation.x += 0.0002;
 
-            // Live Animation: Random Camera Flashes!
-            // Flashes decay quickly
-            if (paparazziFlash.intensity > 0) {
-                paparazziFlash.intensity -= 1.5; // Quick fade out like a real strobe
+                camera.position.x += (targetX * 5 - camera.position.x) * 0.02;
+                camera.position.y += (-targetY * 5 - camera.position.y) * 0.02;
+                camera.lookAt(0, 0, 0);
+
+                if (paparazziFlash.intensity > 0) {
+                    paparazziFlash.intensity -= 1.5;
+                }
+                if (Math.random() > 0.995 && paparazziFlash.intensity <= 0) {
+                    paparazziFlash.intensity = 30 + Math.random() * 20;
+                    paparazziFlash.position.set(
+                        (Math.random() - 0.5) * 30,
+                        (Math.random() - 0.5) * 30,
+                        (Math.random() - 0.5) * 20
+                    );
+                }
+
+                const time = Date.now() * 0.0005;
+                studioLight1.position.x = Math.sin(time * 0.7) * 20;
+                studioLight1.position.y = Math.cos(time * 0.5) * 20;
+                studioLight2.position.x = Math.cos(time * 0.3) * 25;
+                studioLight2.position.y = Math.sin(time * 0.6) * 25;
+
+                lensRing.rotation.z += 0.001;
+                lensRing.scale.x = 1 + Math.sin(time * 0.5) * 0.05;
+                lensRing.scale.y = 1 + Math.sin(time * 0.5) * 0.05;
+                lensRing2.rotation.z -= 0.002;
+
+                renderer.render(scene, camera);
+            } catch (e) {
+                console.error("ThreeJS Animation Error:", e);
             }
-            // 0.5% chance per frame to trigger a flash
-            if (Math.random() > 0.995 && paparazziFlash.intensity <= 0) {
-                paparazziFlash.intensity = 15 + Math.random() * 20; // Intense burst
-                
-                // Randomize where the flash comes from
-                paparazziFlash.position.set(
-                    (Math.random() - 0.5) * 40,
-                    (Math.random() - 0.5) * 20,
-                    (Math.random() - 0.5) * 20 + 5
-                );
-            }
-
-            renderer.render(scene, camera);
         }
         animate();
         
@@ -290,11 +290,26 @@ document.addEventListener('DOMContentLoaded', () => {
         }, 400); // 400ms is the CSS transition duration
     }
 
+    // Expose openModal to global scope so it can be called directly if needed
+    window.openModal = openModal;
+
     filmCards.forEach(card => {
-        card.addEventListener('click', () => {
-            const videoFile = card.getAttribute('data-video');
+        // Find the watch button inside the card
+        const watchBtn = card.querySelector('.watch-btn-floating');
+        const videoFile = card.getAttribute('data-video');
+        
+        // Attach click to the whole card
+        card.addEventListener('click', (e) => {
             if (videoFile) openModal(videoFile);
         });
+
+        // Also explicitly attach to the watch button and stop propagation to avoid double firing
+        if (watchBtn) {
+            watchBtn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                if (videoFile) openModal(videoFile);
+            });
+        }
     });
 
     if (closeVideoModalBtn) closeVideoModalBtn.addEventListener('click', closeModal);

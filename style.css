@@ -23,7 +23,7 @@ body {
     overflow-x: hidden;
     scroll-behavior: smooth;
     line-height: 1.6;
-    cursor: none; /* Hide default cursor to use custom one */
+    cursor: default; /* Show default cursor */
 }
 
 /* Glassmorphism Navbar */
@@ -74,9 +74,9 @@ body {
     border-color: transparent;
 }
 
-/* Hide cursor on links/buttons to enforce custom cursor */
-a, button, .film-card {
-    cursor: none !important;
+/* Show standard pointer on interactive elements */
+a, button, .film-card, .watch-btn-floating {
+    cursor: pointer !important;
 }
 
 /* Global Film Grain Removed for Clean Mint Aesthetic */
